@@ -1,52 +1,44 @@
 package com.mogikanensoftware.delivery.service.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.jws.WebService;
-import javax.xml.ws.soap.MTOM;
-
-import org.apache.cxf.helpers.IOUtils;
-
 import com.mogikanensoftware.delivery.service.UploadService;
 import com.mogikanensoftware.delivery.service.bean.upload.UploadMessageRequest;
 import com.mogikanensoftware.delivery.service.bean.upload.UploadMessageResponse;
 
+import javax.jws.WebService;
+import javax.xml.ws.soap.MTOM;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
+
 @MTOM(enabled=true)
 @WebService(endpointInterface = "com.mogikanensoftware.delivery.service.UploadService", portName="UploadServicePort", serviceName="UploadService", targetNamespace = "http://schemas.mogikanensoftware.com/upload")
-public class UploadServiceImpl implements UploadService {
+		public class UploadServiceImpl implements UploadService {
+
+	/** The path to upload received files. */
+	private String uploadPath = "/tmp";
 
 	public UploadMessageResponse uploadMessage(UploadMessageRequest request) {
-		UploadMessageResponse response = new UploadMessageResponse();
 
-		response.setResponseTransactionUid("UPL-" + System.currentTimeMillis());
 
-		OutputStream out = null;
+		// randomly generating file name as a UUID
+		String fileName = UUID.randomUUID().toString();
+		File file = new File(uploadPath + File.separator + fileName);
 
-		try {
-			out = new FileOutputStream(new File("c:/temp/q1"+request.getRequestTransactionUid()+".jpg"));
-			
-			
-			IOUtils.copy(request.getMessageContent().getInputStream(), out);			
-			
-						
-			out.flush();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		// writing attachment to file
+		try(FileOutputStream fos = new FileOutputStream(file)) {
+			request.getMessageContent().writeTo(fos);
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} finally {
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		// constructing the response
+		UploadMessageResponse response = new UploadMessageResponse();
+		response.setResponseTransactionUid(String.format("Hi, just received a %d byte file from ya, saved with id = %s",
+				file.length(), fileName));
 
 		return response;
 	}

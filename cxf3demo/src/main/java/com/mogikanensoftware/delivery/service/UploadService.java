@@ -20,7 +20,8 @@ import com.mogikanensoftware.delivery.service.bean.upload.UploadMessageResponse;
 @WebService(targetNamespace = "http://schemas.mogikanensoftware.com/upload")
 @SOAPBinding(style = Style.DOCUMENT, use = Use.LITERAL, parameterStyle = ParameterStyle.BARE)
 @BindingType(javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_MTOM_BINDING)
-@SchemaValidation(type = SchemaValidationType.BOTH)
+//TODO Check Schema validation
+//@SchemaValidation(type = SchemaValidationType.BOTH)
 public interface UploadService {
 
 	@WebMethod(operationName = "uploadMessage")

@@ -24,8 +24,10 @@
     <jaxws:endpoint id="jaxwsUploadService" implementor="com.mogikanensoftware.delivery.service.impl.UploadServiceImpl"
 		address="/uploadService" publish="true" wsdlLocation="WEB-INF/wsdl/UploadService.wsdl">
 		<jaxws:properties>
-			<entry key="mtom-enabled" value="true" />			
-			<entry key="schema-validation-enabled" value="true" />			
+			<entry key="mtom-enabled" value="true" />
+			<!-- TODO Check Schema validation -->
+			<entry key="schema-validation-enabled" value="false" />
+			<entry key="set-jaxb-validation-event-handler" value="false" />
 		</jaxws:properties>
 		<jaxws:features>
 				<bean class="org.apache.cxf.feature.LoggingFeature">

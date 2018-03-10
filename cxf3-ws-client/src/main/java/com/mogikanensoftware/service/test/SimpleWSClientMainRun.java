@@ -50,6 +50,7 @@ public class SimpleWSClientMainRun {
 	        		 ClientPasswordCallback.class.getName() );
 	         outProperties.put( WSHandlerConstants.MUST_UNDERSTAND,"false");
 	         WSS4JOutInterceptor wssOut = new WSS4JOutInterceptor( outProperties );
+	         wssOut.setAllowMTOM(true);
 	         endPoint.getOutInterceptors().add( wssOut );
 	         
 	         LoggingInInterceptor lii = new LoggingInInterceptor();

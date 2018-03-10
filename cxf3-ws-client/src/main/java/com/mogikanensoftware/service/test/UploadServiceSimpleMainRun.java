@@ -43,7 +43,12 @@ public class UploadServiceSimpleMainRun {
 			
 			//enable MTOM
 			Binding binding = ((BindingProvider)service).getBinding();
+
 	        ((SOAPBinding)binding).setMTOMEnabled(true);
+
+			//TODO Check Schema validation
+			//((BindingProvider) service).getRequestContext().put("set-jaxb-validation-event-handler", "false");
+
 			
 			UploadMessageRequest request = new UploadMessageRequest();
 			request.setRequestTransactionUid(System.currentTimeMillis()+"");
@@ -71,7 +76,7 @@ public class UploadServiceSimpleMainRun {
 			request.setMessageInfo(msgInfo);
 
 			//read file data			
-			DataHandler dataHanlder = new DataHandler(UploadServiceSimpleMainRun.class.getResource("/cross_promotion.jpg"));
+			DataHandler dataHanlder = new DataHandler(UploadServiceSimpleMainRun.class.getResource("/50MB.jpg"));
 			
 			request.setMessageContent(dataHanlder);
 			

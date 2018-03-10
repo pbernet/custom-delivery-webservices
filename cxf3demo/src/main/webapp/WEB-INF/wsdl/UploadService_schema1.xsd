@@ -13,7 +13,9 @@
       <xs:element minOccurs="0" name="requestTransactionUid" type="xs:string"/>
       <xs:element name="messageInfo" type="tns:UploadMessageMessageInfo"/>
       <xs:element maxOccurs="unbounded" name="recipients" type="tns:UploadMessageRecipientInfo"/>
-      <xs:element name="messageContent" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+      <xs:element name="messageContent" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream"
+      minOccurs="0" maxOccurs="unbounded"     />
+
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="UploadMessageMessageInfo">
